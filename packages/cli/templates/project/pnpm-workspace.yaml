@@ -1,0 +1,7 @@
+allowBuilds:
+  esbuild: true
+  protobufjs: true
+
+# Resource commands may intentionally update package.json before dependencies
+# are installed. Keep `pnpm vibecloud` available during that interval.
+verifyDepsBeforeRun: false

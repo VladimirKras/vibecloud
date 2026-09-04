@@ -1,0 +1,8 @@
+# OrbStack exposes services through .orb.local domains, so fixed localhost
+# bindings are unnecessary and may conflict with other running projects.
+services:
+  ydb:
+    ports: !reset []
+
+  app:
+    ports: !reset []

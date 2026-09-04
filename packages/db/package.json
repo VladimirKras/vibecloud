@@ -1,0 +1,71 @@
+{
+  "name": "@vibecloud/db",
+  "version": "0.1.0",
+  "description": "Invocation-scoped YDB Drizzle access and Better Auth adapter for Vibecloud functions",
+  "license": "AGPL-3.0-only",
+  "repository": {
+    "type": "git",
+    "url": "https://git.sourcecraft.dev/organization-vladimir-nagasena/vibecloud.git",
+    "directory": "packages/db"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./better-auth": {
+      "types": "./dist/better-auth.d.ts",
+      "import": "./dist/better-auth.js"
+    },
+    "./migrator": {
+      "types": "./dist/migrator.d.ts",
+      "import": "./dist/migrator.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "NOTICE"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.typecheck.json",
+    "test": "pnpm --filter @vibecloud/telemetry build && pnpm build && pnpm test:unit",
+    "test:unit": "node --test test/*.test.ts",
+    "prepack": "pnpm test"
+  },
+  "engines": {
+    "node": ">=26.0.0"
+  },
+  "dependencies": {
+    "@vibecloud/core": "workspace:^",
+    "@vibecloud/telemetry": "workspace:^",
+    "@ydbjs/api": "^6.0.7",
+    "@ydbjs/auth": "^6.3.1",
+    "@ydbjs/core": "^6.3.1",
+    "@ydbjs/drizzle-adapter": "^0.1.1",
+    "@ydbjs/query": "^6.3.0",
+    "@ydbjs/value": "^6.0.8",
+    "drizzle-orm": "^0.45.2"
+  },
+  "peerDependencies": {
+    "better-auth": "^1.6.26"
+  },
+  "peerDependenciesMeta": {
+    "better-auth": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^26.2.0",
+    "better-auth": "^1.6.26",
+    "typescript": "^6.0.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

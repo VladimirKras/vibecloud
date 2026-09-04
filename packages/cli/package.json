@@ -1,0 +1,43 @@
+{
+  "name": "@vibecloud/cli",
+  "version": "0.1.0",
+  "description": "Declarative deployment tooling for serverless Yandex Cloud applications",
+  "license": "AGPL-3.0-only",
+  "repository": {
+    "type": "git",
+    "url": "https://git.sourcecraft.dev/organization-vladimir-nagasena/vibecloud.git",
+    "directory": "packages/cli"
+  },
+  "type": "module",
+  "packageManager": "pnpm@11.15.1",
+  "bin": {
+    "vibecloud": "./dist/vibecloud.js"
+  },
+  "files": [
+    "dist/vibecloud.js",
+    "skills",
+    "templates",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "pnpm typecheck && esbuild src/cli.ts --bundle --platform=node --format=esm --target=node26 --outfile=dist/vibecloud.js",
+    "typecheck": "tsc",
+    "test": "pnpm build && pnpm test:unit",
+    "test:unit": "node --test test/*.test.ts",
+    "prepack": "pnpm test"
+  },
+  "engines": {
+    "node": ">=26.0.0"
+  },
+  "devDependencies": {
+    "@commander-js/extra-typings": "^15.0.0",
+    "@types/node": "^26.2.0",
+    "commander": "^15.0.0",
+    "esbuild": "^0.28.2",
+    "typescript": "^6.0.3",
+    "zod": "^4.4.3"
+  }
+}

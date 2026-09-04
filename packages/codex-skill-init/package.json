@@ -1,0 +1,37 @@
+{
+  "name": "@vibecloud/codex-skill-init",
+  "version": "0.1.0",
+  "description": "Install the Codex bootstrap skill for creating applications with Vibecloud",
+  "license": "AGPL-3.0-only",
+  "repository": {
+    "type": "git",
+    "url": "https://git.sourcecraft.dev/organization-vladimir-nagasena/vibecloud.git",
+    "directory": "packages/codex-skill-init"
+  },
+  "type": "module",
+  "bin": {
+    "vibecloud-skill-init": "./dist/install.js"
+  },
+  "files": [
+    "dist/install.js",
+    "skill",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "pnpm build && pnpm test:unit",
+    "test:unit": "node --test test/*.test.ts",
+    "prepack": "pnpm test",
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "engines": {
+    "node": ">=26.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@types/node": "^26.2.0",
+    "typescript": "^6.0.3"
+  }
+}

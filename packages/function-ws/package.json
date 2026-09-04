@@ -1,0 +1,29 @@
+{
+  "name": "@vibecloud/function-ws",
+  "version": "0.1.0",
+  "description": "TypeScript types for Vibecloud WebSocket functions",
+  "license": "AGPL-3.0-only",
+  "repository": {
+    "type": "git",
+    "url": "https://git.sourcecraft.dev/organization-vladimir-nagasena/vibecloud.git",
+    "directory": "packages/function-ws"
+  },
+  "type": "module",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts"
+    }
+  },
+  "files": [
+    "index.d.ts",
+    "README.md"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=26.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

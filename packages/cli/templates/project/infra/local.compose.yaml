@@ -1,0 +1,74 @@
+services:
+  ydb:
+    image: ydbplatform/local-ydb:latest
+    hostname: localhost
+    platform: linux/amd64
+    labels:
+      dev.orbstack.http-port: "8765"
+    ports:
+      - "2136:2136"
+      - "8765:8765"
+    volumes:
+      - ydb-certs:/ydb_certs
+      - ydb-data:/ydb_data
+
+  app:
+    build:
+      context: .
+      dockerfile: local.Dockerfile
+    init: true
+    working_dir: /workspace
+    command:
+      - sh
+      - -lc
+      - |
+        set -eu
+        [ -n "$${NPM_CONFIG_REGISTRY:-}" ] || unset NPM_CONFIG_REGISTRY
+        [ -n "$${PNPM_CONFIG_REGISTRY:-}" ] || unset PNPM_CONFIG_REGISTRY
+        pnpm install --no-frozen-lockfile
+        pnpm vibecloud dev --config "$$VIBECLOUD_CONFIG_PATH"
+    environment:
+      CHOKIDAR_INTERVAL: "250"
+      CHOKIDAR_USEPOLLING: "true"
+      NPM_CONFIG_REGISTRY: "${NPM_CONFIG_REGISTRY:-}"
+      PNPM_CONFIG_REGISTRY: "${PNPM_CONFIG_REGISTRY:-}"
+      YANDEX_CLOUD_API_KEY: "${YANDEX_CLOUD_API_KEY:-}"
+      YANDEX_CLOUD_FOLDER_ID: "${YANDEX_CLOUD_FOLDER_ID:-}"
+      YANDEX_CLOUD_IAM_TOKEN: "${YANDEX_CLOUD_IAM_TOKEN:-}"
+      VIBECLOUD_CONFIG_PATH: "/workspace/${VIBECLOUD_CONFIG_RELATIVE_PATH:-infra/vibecloud.auto.tfvars.json}"
+      VIBECLOUD_DEV_CONTAINER: "1"
+      VIBECLOUD_LOCAL_RUNTIME: "${VIBECLOUD_LOCAL_RUNTIME:-docker}"
+    labels:
+      dev.orbstack.domains: "${VIBECLOUD_ORB_DOMAIN:-vibecloud.orb.local}"
+      dev.orbstack.http-port: "5173"
+    expose:
+      - "5173"
+      - "8787"
+    ports:
+      - "5173-5199:5173-5199"
+      - "8787:8787"
+    volumes:
+      - ..:/workspace
+      - app-node-modules:/workspace/node_modules
+      - pnpm-store:/pnpm/store
+    depends_on:
+      ydb:
+        condition: service_healthy
+    develop:
+      watch:
+        - action: restart
+          path: "./${VIBECLOUD_CONFIG_FILE_NAME:-vibecloud.auto.tfvars.json}"
+        - action: restart
+          path: ../package.json
+        - action: restart
+          path: ../build.ts
+        - action: restart
+          path: ../vite.config.ts
+        - action: rebuild
+          path: ./local.Dockerfile
+
+volumes:
+  app-node-modules:
+  pnpm-store:
+  ydb-certs:
+  ydb-data:

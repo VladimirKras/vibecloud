@@ -1,0 +1,4 @@
+interface:
+  display_name: "Vibecloud"
+  short_description: "Build and deploy Terraform serverless apps"
+  default_prompt: "Use $vibecloud to initialize, author, deploy, and verify this pnpm-based serverless application through its checked-in Terraform."

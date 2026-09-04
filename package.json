@@ -1,0 +1,40 @@
+{
+  "name": "vibecloud-workspace",
+  "private": true,
+  "license": "AGPL-3.0-only",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/VladimirKras/vibecloud.git"
+  },
+  "type": "module",
+  "packageManager": "pnpm@11.15.1",
+  "engines": {
+    "node": ">=26.0.0"
+  },
+  "scripts": {
+    "build": "pnpm --filter @vibecloud/core build && pnpm --filter @vibecloud/ai build && pnpm --filter @vibecloud/db build && pnpm --filter @vibecloud/telemetry build && pnpm --filter @vibecloud/cli build && pnpm --filter @vibecloud/codex-skill-init build",
+    "typecheck": "pnpm typecheck:scripts && pnpm --filter @vibecloud/core typecheck && pnpm --filter @vibecloud/ai typecheck && pnpm --filter @vibecloud/db typecheck && pnpm --filter @vibecloud/telemetry exec tsc --noEmit -p tsconfig.json && pnpm --filter @vibecloud/cli typecheck && pnpm --filter @vibecloud/codex-skill-init typecheck && pnpm typecheck:tests",
+    "lint": "eslint --flag unstable_native_nodejs_ts_config .",
+    "test": "pnpm lint && pnpm typecheck:scripts && pnpm build && pnpm typecheck:tests && pnpm --filter @vibecloud/core test:unit && pnpm --filter @vibecloud/ai test:unit && pnpm --filter @vibecloud/db test:unit && pnpm --filter @vibecloud/telemetry test:unit && pnpm --filter @vibecloud/codex-skill-init test:unit && pnpm --filter @vibecloud/cli test:unit && node --test scripts/*.test.ts",
+    "release:check": "pnpm test && node scripts/release-check.ts && node scripts/generated-project-acceptance.ts && node scripts/live-yc-acceptance.ts",
+    "release:publish": "node scripts/local-registry-publish.ts --stable",
+    "release:push": "node scripts/release-push.ts",
+    "release:github": "node scripts/github-snapshot-push.ts",
+    "acceptance:websocket": "node scripts/live-websocket-smoke.ts",
+    "acceptance:live": "pnpm build && node scripts/live-yc-acceptance.ts",
+    "local:registry": "docker compose --project-directory ../../../apps/verdaccio up -d",
+    "local:publish": "node scripts/local-registry-publish.ts",
+    "local:init": "node scripts/local-registry-init.ts",
+    "typecheck:scripts": "tsc -p scripts/tsconfig.json",
+    "typecheck:tests": "tsc -p tsconfig.tests.json"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@stylistic/eslint-plugin": "^5.10.0",
+    "eslint": "^10.8.1",
+    "globals": "^17.9.0",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.66.0",
+    "@types/node": "^26.2.0"
+  }
+}

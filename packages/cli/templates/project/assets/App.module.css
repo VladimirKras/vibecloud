@@ -1,0 +1,44 @@
+.workspace {
+  min-width: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--g-color-base-background);
+}
+
+.appName {
+  max-width: min(40vw, 28rem);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.page {
+  min-height: calc(100vh - 40px);
+  min-height: calc(100dvh - 40px);
+  padding: var(--g-spacing-4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card {
+  width: min(100%, 30rem);
+  padding: var(--g-spacing-6);
+  --g-card-border-radius: var(--g-border-radius-xl);
+}
+
+.label,
+.title,
+.copy {
+  margin: 0;
+}
+
+.title {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 36rem) {
+  .appName {
+    display: none;
+  }
+}

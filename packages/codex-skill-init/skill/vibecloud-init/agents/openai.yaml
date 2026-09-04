@@ -1,0 +1,4 @@
+interface:
+  display_name: "Vibecloud Init"
+  short_description: "Create new applications with Vibecloud"
+  default_prompt: "Use $vibecloud-init to create a new application with Vibecloud."

@@ -1,0 +1,41 @@
+{
+  "name": "@vibecloud/core",
+  "version": "0.1.0",
+  "description": "Shared runtime utilities for Vibecloud packages and functions",
+  "license": "AGPL-3.0-only",
+  "repository": {
+    "type": "git",
+    "url": "https://git.sourcecraft.dev/organization-vladimir-nagasena/vibecloud.git",
+    "directory": "packages/core"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "pnpm build && pnpm test:unit",
+    "test:unit": "node --test test/*.test.ts",
+    "prepack": "pnpm test"
+  },
+  "engines": {
+    "node": ">=26.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
