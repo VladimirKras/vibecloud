@@ -1,0 +1,17 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "emitDeclarationOnly": true,
+    "declaration": true,
+    "outDir": "dist",
+    "rootDir": "src",
+    "rewriteRelativeImportExtensions": true
+  },
+  "include": [
+    "src/function-build.ts",
+    "src/function-router.ts",
+    "src/application-build.ts",
+    "src/vite.ts"
+  ]
+}

@@ -1,0 +1,8 @@
+branch_protection:
+  policies:
+    - target: default_branch
+      message: "Merge a reviewed pull request instead of changing trunk directly"
+      rules:
+        - prevent_force_push
+        - prevent_non_pr_changes
+        - prevent_deletion

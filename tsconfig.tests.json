@@ -1,0 +1,7 @@
+{
+  "extends": "./scripts/tsconfig.json",
+  "compilerOptions": {
+    "skipLibCheck": true
+  },
+  "include": ["eslint.config.ts", "packages/*/test/**/*.ts"]
+}

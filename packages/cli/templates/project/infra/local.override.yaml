@@ -1,0 +1,2 @@
+# App-specific Docker Compose settings, merged after Vibecloud defaults.
+services: {}

@@ -1,0 +1,17 @@
+node_modules/
+dist
+infra/.terraform/
+infra/.packages/
+.env
+.env.*
+!.env.example
+*.tfstate
+*.tfstate.*
+.vibecloud/mutation.lock/
+.vibecloud/local-session.json
+.vibecloud/pending-edit.json
+infra/.local.services.compose.json
+.vibecloud/builds/
+.vibecloud/build.lock/
+.vibecloud/locks/
+.vibecloud/media/

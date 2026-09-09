@@ -1,0 +1,7 @@
+The Better Auth adapter was informed by @rodnoycry/ydb-better-auth:
+https://github.com/rodnoycry/ydb-better-auth
+
+That project is Copyright (c) Nikita Leontev and licensed under the MIT
+License. This package is an independent implementation with a transaction-
+aware execution model, Timestamp precision, identifier allowlists, named YDB
+telemetry, and native atomic Better Auth operations.

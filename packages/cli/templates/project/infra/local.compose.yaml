@@ -1,0 +1,60 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: local.Dockerfile
+    init: true
+    working_dir: /workspace
+    command:
+      - sh
+      - -lc
+      - |
+        set -eu
+        [ -n "$${NPM_CONFIG_REGISTRY:-}" ] || unset NPM_CONFIG_REGISTRY
+        [ -n "$${PNPM_CONFIG_REGISTRY:-}" ] || unset PNPM_CONFIG_REGISTRY
+        pnpm install --no-frozen-lockfile
+        pnpm vibecloud dev --config "$$VIBECLOUD_CONFIG_PATH"
+    environment:
+      CHOKIDAR_INTERVAL: "250"
+      CHOKIDAR_USEPOLLING: "true"
+      NPM_CONFIG_REGISTRY: "${NPM_CONFIG_REGISTRY:-}"
+      PNPM_CONFIG_REGISTRY: "${PNPM_CONFIG_REGISTRY:-}"
+      YANDEX_CLOUD_API_KEY: "${YANDEX_CLOUD_API_KEY:-}"
+      YANDEX_CLOUD_FOLDER_ID: "${YANDEX_CLOUD_FOLDER_ID:-}"
+      YANDEX_CLOUD_IAM_TOKEN: "${YANDEX_CLOUD_IAM_TOKEN:-}"
+      VIBECLOUD_CONFIG_PATH: "/workspace/${VIBECLOUD_CONFIG_RELATIVE_PATH:-infra/vibecloud.auto.tfvars.json}"
+      VIBECLOUD_DEV_CONTAINER: "1"
+      VIBECLOUD_COMPOSE_PROJECT: "${VIBECLOUD_COMPOSE_PROJECT:?}"
+      VIBECLOUD_LOCAL_OWNER: "${VIBECLOUD_LOCAL_OWNER:?}"
+    labels:
+      dev.orbstack.domains: "${VIBECLOUD_ORB_DOMAIN:-vibecloud.orb.local}"
+      dev.orbstack.http-port: "5173"
+    expose:
+      - "5173"
+      - "8787"
+    healthcheck:
+      test: ["CMD", "node", "-e", "Promise.all([5173,8787].map(port=>fetch('http://127.0.0.1:'+port))).catch(()=>process.exit(1))"]
+      interval: 2s
+      timeout: 3s
+      start_period: 180s
+      retries: 3
+    volumes:
+      - ..:/workspace
+      - app-node-modules:/workspace/node_modules
+      - pnpm-store:/pnpm/store
+      - app-runtime:/vibecloud-runtime
+    develop:
+      watch:
+        - action: restart
+          path: ../package.json
+        - action: restart
+          path: ../build.ts
+        - action: restart
+          path: ../vite.config.ts
+        - action: rebuild
+          path: ./local.Dockerfile
+
+volumes:
+  app-node-modules:
+  pnpm-store:
+  app-runtime:
